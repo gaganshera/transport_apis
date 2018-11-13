@@ -1,0 +1,32 @@
+{
+  "name": "transport_apis",
+  "version": "1.0.0",
+  "description": "Transport related apis for order functionality",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Gaganjot Singh",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "3.5.2",
+    "body-parser": "1.18.3",
+    "express": "4.16.3",
+    "express-validator": "^5.3.0",
+    "google-distance": "^1.0.1",
+    "jsonschema": "^1.2.4",
+    "method-override": "^3.0.0",
+    "mongoose": "5.2.17",
+    "q": "^1.5.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^9.0.0",
+    "babel-preset-es2017": "^6.24.1",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "mocha":"^5.2.0",
+    "eslint": "^5.6.0",
+    "mongodb-memory-server": "^2.2.0",
+    "supertest": "^3.3.0"
+  }
+}
