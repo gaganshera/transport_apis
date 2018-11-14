@@ -30,7 +30,10 @@ module.exports = function (app, router) {
         let orders = require('../orders/controllers/orderController');
         orders.list(req, res).then(function(response) {
 
-            resp.responseWithSuccess(req, res, response);
+            if(!response.length)
+                resp.responseWithSuccess(req, res, null, 204);
+            else
+                resp.responseWithSuccess(req, res, response);
         }, function(err) {
 
             resp.responseWithError(req, res, err);

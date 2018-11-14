@@ -143,7 +143,22 @@ describe('/PATCH /orders/:id', () => {
             });
     });
 
-    it('should return failure for updating status to TAKEN', (done) => {
+    it('should return success for patched order', (done) => {
+        chai.request(server)
+            .get('/orders?page=1&limit=1')
+            .end((err, res) => {
+                chai.request(server)
+                    .patch('/orders/' + res.body[0].id)
+                    .send({
+                        status: "TAKEN"
+                    }).end((err, res) => {
+                        expect(res).to.have.status(200);
+                        done();
+                    })
+            });
+    });
+
+    it('should return failure for updating status to TAKEN of already taken order', (done) => {
         chai.request(server)
             .get('/orders?page=1&limit=1')
             .end((err, res) => {
@@ -189,11 +204,14 @@ describe('GET /', () => {
             });
     });
 
-    it('should return only 1 order', (done) => {
+    it('should return only 1 order, with correct format', (done) => {
         chai.request(server)
             .get('/orders?page=1&limit=1')
             .end(function (err, res) {
                 expect(res).to.have.status(200);
+                expect(res.body[0]).to.have.property('distance');
+                expect(res.body[0].distance).to.be.a('number');
+                expect(res.body[1]).to.be.undefined;
                 done();
             });
     });

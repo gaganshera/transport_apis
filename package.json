@@ -4,7 +4,8 @@
   "description": "Transport related apis for order functionality",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "start": "forever app.js",
+    "test": "mocha --timeout 10000"
   },
   "author": "Gaganjot Singh",
   "license": "MIT",
