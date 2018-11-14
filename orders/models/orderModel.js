@@ -1,6 +1,6 @@
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-let OrderModelSchema = new mongoose.Schema(
+const orderModelSchema = new mongoose.Schema(
     {
         distance: Number,
         status: String,
@@ -14,4 +14,4 @@ let OrderModelSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('OrderModel', OrderModelSchema);
+module.exports = mongoose.model('orderModel', orderModelSchema);

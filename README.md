@@ -91,7 +91,7 @@
 
 **/lib**
 
-- **`commonUtils.js`** has common functionality to be used throughout the app.
+- **`googleApi.js`** has functionality for google calculate distance api.
 - **`responseHandlers.js`** contains various response functions aiding in sending API responses.
 
 **/orders**

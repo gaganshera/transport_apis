@@ -10,7 +10,6 @@
   "author": "Gaganjot Singh",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "3.5.2",
     "body-parser": "1.18.3",
     "express": "4.16.3",
     "express-validator": "^5.3.0",

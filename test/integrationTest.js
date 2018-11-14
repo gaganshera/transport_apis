@@ -9,19 +9,6 @@ const mongoose = require('mongoose');
 const server = 'localhost:8080';
 
 /*
- * Test Suite for make DB connection
- */
-describe('Test Suite', function () {
-    before(function (done) {
-        mongoose.connect('mongodb://localhost/transport_apis', function (error) {
-            if (error) console.error('Mongo connection error:\n%\n', error);
-            console.log('connected');
-            done(error);
-        });
-    });
-});
-
-/*
  * Add order
  */
 describe('/POST orders', () => {

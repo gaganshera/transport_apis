@@ -2,7 +2,6 @@ FROM node:8.12.0-jessie
 
 RUN npm i forever -g --silent
 
-# RUN mkdir -p /app
 WORKDIR /app
 COPY . /app
 
