@@ -6,6 +6,14 @@ else
     echo "npm already installed! Moving on."
 fi
 
+# Installing npm for test cases
+if [ ! -f /usr/bin/mocha ]; then
+    echo 'Installing mocha'
+    npm i mocha
+else
+    echo "mocha already installed! Moving on."
+fi
+
 # Start docker 
 sudo docker-compose up -d
 
