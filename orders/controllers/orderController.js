@@ -87,7 +87,7 @@ module.exports = {
             if(err) {
     
                 deferred.reject(err);
-            } else if(!orderData || !orderData.length) {
+            } else if(!orderData) {
 
                 const error = {status: 404, message: 'Order id is not available for updation'};
                 deferred.reject(error);
@@ -121,7 +121,7 @@ module.exports = {
         const offset = ((page-1) * limit);
         let orderData = [];
 
-        orderModel.find(null, fields, {skip: offset, limit: limit})
+        orderModel.find(null, fields, {skip: offset, limit: limit}).sort({_id: -1})
         .cursor() //looping through orders to change _id to id
         .on('data', data => {
             let datum = data.toObject();

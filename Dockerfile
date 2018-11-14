@@ -5,7 +5,7 @@ RUN npm i forever -g --silent
 WORKDIR /app
 COPY . /app
 
-RUN npm i
+RUN npm i --production --silent
 
 EXPOSE 8080
 

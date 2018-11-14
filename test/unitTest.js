@@ -2,7 +2,7 @@ const chai = require('chai');
 const should = chai.should();
 const expect = chai.expect;
 let Config = require('../config/constants');
-global.C = new Config();
+const C = new Config();
 const googleApi = require('../lib/googleApi');
 const mongoValidate = require('../lib/mongooseValidate');
 
