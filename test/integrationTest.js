@@ -135,6 +135,22 @@ describe('/PATCH /orders/:id', () => {
             });
     });
 
+    it('should return error due to wrong param value passed (status value = TOOK)', (done) => {
+        chai.request(server)
+            .get('/orders?page=1&limit=1')
+            .end((err, res) => {
+                chai.request(server)
+                    .patch('/orders/' + res.body[0].id)
+                    .send({
+                        status: "TOOK"
+                    }).end((err, res) => {
+                        expect(res).to.have.status(400);
+                        expect(res.body.error).to.be.equal('INVALID_PARAMETERS');
+                        done();
+                    })
+            });
+    });
+
     it('should return success for patched order', (done) => {
         chai.request(server)
             .get('/orders?page=1&limit=1')
@@ -174,12 +190,21 @@ describe('/PATCH /orders/:id', () => {
  */
 describe('GET /', () => {
 
-    it('should return error for not imcomplete params (no limit passed)', (done) => {
+    it('should return error for imcomplete params (no limit passed)', (done) => {
         chai.request(server)
             .get('/orders?page=1')
             .end(function (err, res) {
                 expect(res).to.have.status(400);
                 expect(res.body.error).to.be.equal('INVALID_PARAMETERS');
+                done();
+            });
+    });
+
+    it('should return error due to invalid value of params (invalid page)', (done) => {
+        chai.request(server)
+            .get('/orders?page=jhdj&limit=10')
+            .end(function (err, res) {
+                expect(res).to.have.status(400);
                 done();
             });
     });
