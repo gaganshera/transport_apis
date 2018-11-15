@@ -1,5 +1,5 @@
 module.exports = {
-    googleMapsKey: 'AIzaSyB8eziG4kBKXmbv1x27T2dRCw6wqtevKsU',
+    googleMapsKey: '',
     defaultPort: 8080,
     mongodbConnection: "mongodb://mongo/transport_apis",
     orderStatuses: { 'UNASSIGNED': 'UNASSIGNED', 'TAKEN': 'TAKEN' },
