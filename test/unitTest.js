@@ -1,29 +1,44 @@
 const chai = require('chai');
 const expect = chai.expect;
 const sinon = require("sinon");
-const appConstants = require('../config/constants');
 const mongoValidate = require('../lib/mongooseValidate');
+const googleApi = require('../lib/googleApi');
+const distance = require('google-distance');
+const mockDirectionResponse = {
+    index: 1,
+    distance: '1,069 km',
+    distanceValue: 1069464,
+    duration: '21 hours 2 mins',
+    durationValue: 75732,
+    origin: 'Unnamed Road, Agara, Gujarat 389170, India',
+    destination: 'D.no 22-3-274/8/c,1st floor, Beside Andhra bank, jyothinagar,, TTS Twp, Ramagundam, Telangana 505215, India',
+    mode: 'driving',
+    units: 'metric',
+    language: 'en',
+    avoid: null,
+    sensor: false
+};
 
 describe('Google Maps lib', () => {
     describe('calculateDistance()', () => {
         it('should return distance between origin and destination', (done) => {
-            const googleApi = {
-                calculateDistance: function(){}
-            };
-            const calculateDistanceStub = sinon.stub(googleApi, "calculateDistance")
-                .resolves({distanceValue: 1071943});
-            calculateDistanceStub(["23", "72"], ["28", "79"]).then(data => {
-                expect(data.distanceValue).equal(1071943);
+            const distanceStub = sinon
+                .stub(distance, 'get')
+                .yields(null, mockDirectionResponse);
+
+            googleApi.calculateDistance(["23", "72"], ["28", "79"]).then(data => {
+                distanceStub.restore()
+                expect(data.distanceValue).equal(1069464);
                 done();
             });
         });
         it('should return an error due to wrong coordinates', (done) => {
-            const googleApi = {
-                calculateDistance: function(){}
-            };
-            const calculateDistanceStub = sinon.stub(googleApi, "calculateDistance")
-                .rejects({message: 'Result error: ZERO_RESULTS'});
-            calculateDistanceStub(["2", "72"], ["28", "79"]).then(null, err => {
+            const distanceStub = sinon
+                .stub(distance, 'get')
+                .yields({message: 'Result error: ZERO_RESULTS'}, null);
+
+            googleApi.calculateDistance(["2", "72"], ["28", "79"]).then(null, err => {
+                distanceStub.restore();
                 expect(err.message).equal('Result error: ZERO_RESULTS');
                 done();
             });

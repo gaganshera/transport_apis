@@ -12,7 +12,7 @@ const server = 'localhost:8080';
  * Add order
  */
 describe('/POST orders', () => {
-    it('should return error for invalid format due to incomplete request data', (done) => {
+    it('should return error for invalid format due to incomplete request data (no destination)', (done) => {
         chai.request(server)
             .post('/orders')
             .send({
@@ -20,11 +20,12 @@ describe('/POST orders', () => {
             })
             .end((err, res) => {
                 expect(res).to.have.status(400);
+                expect(res.body.error).to.be.equal('INVALID_PARAMETERS');
                 done();
             });
     });
 
-    it('should return 400 with invalid format', (done) => {
+    it('should return 400 with invalid format (invalid json)', (done) => {
         chai.request(server)
             .post('/orders')
             .send({
@@ -33,6 +34,7 @@ describe('/POST orders', () => {
             })
             .end((err, res) => {
                 expect(res).to.have.status(400);
+                expect(res.body.error).to.be.equal('INVALID_PARAMETERS');
                 done();
             });
     });
@@ -62,6 +64,7 @@ describe('/POST orders', () => {
             })
             .end((err, res) => {
                 expect(res).to.have.status(500);
+                expect(res.body.error).to.be.equal('Result error: ZERO_RESULTS');
                 done();
             });
     });
@@ -103,7 +106,7 @@ describe('DELETE orders/9476837', () => {
  * Patch order
  */
 describe('/PATCH /orders/:id', () => {
-    it('returns error due to invalid mongo id', (done) => {
+    it('returns error due to non-present mongo id', (done) => {
         chai.request(server)
             .patch('/orders/5beb29b8e7c73b234a1fe6dc')
             .send({
@@ -111,11 +114,12 @@ describe('/PATCH /orders/:id', () => {
             })
             .end((err, res) => {
                 expect(res).to.have.status(404);
+                expect(res.body.error).to.be.equal('Order id not found');
                 done();
             });
     });
 
-    it('should return error due to wrong param passed', (done) => {
+    it('should return error due to wrong param passed (statuses instead of status)', (done) => {
         chai.request(server)
             .get('/orders?page=1&limit=1')
             .end((err, res) => {
@@ -125,6 +129,7 @@ describe('/PATCH /orders/:id', () => {
                         statuses: "TAKEN"
                     }).end((err, res) => {
                         expect(res).to.have.status(400);
+                        expect(res.body.error).to.be.equal('INVALID_PARAMETERS');
                         done();
                     })
             });
@@ -140,6 +145,7 @@ describe('/PATCH /orders/:id', () => {
                         status: "TAKEN"
                     }).end((err, res) => {
                         expect(res).to.have.status(200);
+                        expect(res.body.status).to.be.equal('SUCCESS');
                         done();
                     })
             });
@@ -156,13 +162,8 @@ describe('/PATCH /orders/:id', () => {
                         status: "TAKEN"
                     }).end((err, res) => {
                         expect(res).to.have.status(409);
-                        chai.request(server)
-                            .patch('/orders/' + order.body[0].id)
-                            .send({
-                                status: "UNASSIGNED"
-                            }).end((err, res) => {
-                                done();
-                            });
+                        expect(res.body.error).to.be.equal('Order id is not available for updation');
+                        done();
                     })
             });
     });
@@ -173,16 +174,17 @@ describe('/PATCH /orders/:id', () => {
  */
 describe('GET /', () => {
 
-    it('should return error for not imcomplete params', (done) => {
+    it('should return error for not imcomplete params (no limit passed)', (done) => {
         chai.request(server)
             .get('/orders?page=1')
             .end(function (err, res) {
                 expect(res).to.have.status(400);
+                expect(res.body.error).to.be.equal('INVALID_PARAMETERS');
                 done();
             });
     });
 
-    it('should return error due to invalid value of params', (done) => {
+    it('should return error due to invalid value of params (invalid limit)', (done) => {
         chai.request(server)
             .get('/orders?page=1&limit=kjj6')
             .end(function (err, res) {
