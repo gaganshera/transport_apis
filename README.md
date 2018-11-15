@@ -108,6 +108,9 @@
 **/test**
 - Has the automated integration and unit test cases, which can be run to verify the project.
 
+**/swagger.yaml**
+- Swagger API documentation.
+
 **/.eslintrc.**
 - Provides the linting parameters to process files for syntax.
 
