@@ -45,7 +45,7 @@ describe('/POST orders', () => {
                 "destination": ["28", "79.786"]
             })
             .end((err, res) => {
-                expect(res).to.have.status(201);
+                expect(res).to.have.status(200);
                 expect(res.body).to.have.property('distance');
                 expect(res.body.distance).to.be.a('number');
                 expect(res.body.status).to.be.equal('UNASSIGNED');
@@ -155,7 +155,7 @@ describe('/PATCH /orders/:id', () => {
                     .send({
                         status: "TAKEN"
                     }).end((err, res) => {
-                        expect(res).to.have.status(404);
+                        expect(res).to.have.status(409);
                         chai.request(server)
                             .patch('/orders/' + order.body[0].id)
                             .send({

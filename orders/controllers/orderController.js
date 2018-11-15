@@ -76,18 +76,20 @@ module.exports = {
             return deferred.promise;
         }
 
-        const query = { _id: req.params.id, status: appConstants.orderStatuses.UNASSIGNED };
+        const query = { _id: req.params.id };
         const update = { status: appConstants.orderStatuses.TAKEN };
         const options = { new: false };
 
         orderModel.findOneAndUpdate(query, update, options).then(orderData => {
             if(!orderData) {
 
-                const error = {status: 404, message: 'Order id is not available for updation'};
-                deferred.reject(error);
+                deferred.reject({status: 404, message: 'Order id not found'});
             } else {
     
-                deferred.resolve({status: 'SUCCESS'});
+                if(orderData.status !== appConstants.orderStatuses.UNASSIGNED)
+                    deferred.reject({status: 409, message: 'Order id is not available for updation'});
+                else
+                    deferred.resolve({status: 'SUCCESS'});
             }
         }).catch(err => {
             const error = { status: 500, message: err.message };
@@ -107,7 +109,7 @@ module.exports = {
         const deferred = Q.defer();
         const validation = validate(req.query, listOrderValidator);
 
-        if (!validation.valid || req.query.page <= 0 || req.query.limit <= 0) {
+        if (!validation.valid || req.query.page <= 0 || req.query.limit <= 0 || req.query.limit > appConstants.pageSizeMax) {
             const error = {status: 400, message: 'INVALID_PARAMETERS'};
             deferred.reject(error);
             return deferred.promise;
@@ -126,7 +128,10 @@ module.exports = {
                 delete datum._id;
                 orderData.push(datum);
             }).on('close', () => {
-                deferred.resolve(orderData);
+                if(orderData.length > 0)
+                    deferred.resolve(orderData);
+                else
+                    deferred.reject({status: 404, message: 'No records found'});
             });
 
         return deferred.promise;

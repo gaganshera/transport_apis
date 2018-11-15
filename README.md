@@ -25,7 +25,9 @@
 2. Web APIs will be accessible at `http://localhost:8080`
 
 ## Run automated tests from terminal
-- After starting the project with `docker-compose up`, run the tests with `docker exec -it transport_apis_server_1 npm test test/`
+- After starting the project with `docker-compose up`, run: 
+    1. Interation tests: `docker exec -it transport_apis_server_1 npm test test/integrationTest.js`
+    2. Unit tests: `docker exec -it transport_apis_server_1 npm test test/unitTest.js`
 
 ## API Reference Documentation
 

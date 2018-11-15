@@ -8,7 +8,7 @@ module.exports = function (app, router) {
     router.post('/orders', (req, res) => {
         orders.add(req, res).then(function(response) {
 
-            resp.responseWithSuccess(req, res, response, 201);
+            resp.responseWithSuccess(req, res, response);
         }, function(err) {
 
             resp.responseWithError(req, res, err);
