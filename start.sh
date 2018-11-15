@@ -1,8 +1,9 @@
 # Start docker 
-echo 'Start docker'
+echo 'Starting docker'
 sudo docker-compose up -d
 
-sleep 150
+echo 'Installing dependencies...'
+sleep 50
 
 # Start Test Cases
 echo 'Integration test cases:'

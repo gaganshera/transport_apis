@@ -97,16 +97,17 @@
 - Separate orders folder to maintain modularity of code.
 - **`controllers`** contains order related controllers to control basic flow of order related functionalities
 - **`models`** has the model definition of orders.
-- `app.js` is what builds and configures the express app
+- **`app.js`** is what builds and configures the express app
 - **`validations`** includes the JSONschema based validation JSONs to be used in creating, patching and listing orders.
 
 **/routes**
-
 - Contains the project specific routes
 
 **/test**
-
 - Has the automated integration and unit test cases, which can be run to verify the project.
+
+**/.eslintrc.**
+- Provides the linting parameters to process files for syntax.
 
 **/app.js**
 - The initiator file, that starts the server and initiated all configurations.

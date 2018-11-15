@@ -39,17 +39,15 @@ module.exports = {
                 updatedAt: new Date()
             });
     
-            order.save((err, newOrder) => {
-                if (err) {
-                    const error = {status: 500, message: err.message};
-                    deferred.reject(error);
-                } else {
-                    deferred.resolve({
-                        id: newOrder._id,
-                        distance: parseInt(newOrder.distance),
-                        status: newOrder.status
-                    });
-                }
+            order.save().then(newOrder => {
+                deferred.resolve({
+                    id: newOrder._id,
+                    distance: parseInt(newOrder.distance),
+                    status: newOrder.status
+                });
+            }).catch(err => {
+                const error = { status: 500, message: err.message };
+                deferred.reject(error);
             });
         }, err => {
             const error = {status: 500, message: err.message};
@@ -81,13 +79,9 @@ module.exports = {
         const query = { _id: req.params.id, status: appConstants.orderStatuses.UNASSIGNED };
         const update = { status: appConstants.orderStatuses.TAKEN };
         const options = { new: false };
-    
-        orderModel.findOneAndUpdate(query, update, options, (err, orderData) => {
-    
-            if(err) {
-    
-                deferred.reject(err);
-            } else if(!orderData) {
+
+        orderModel.findOneAndUpdate(query, update, options).then(orderData => {
+            if(!orderData) {
 
                 const error = {status: 404, message: 'Order id is not available for updation'};
                 deferred.reject(error);
@@ -95,6 +89,9 @@ module.exports = {
     
                 deferred.resolve({status: 'SUCCESS'});
             }
+        }).catch(err => {
+            const error = { status: 500, message: err.message };
+            deferred.reject(error);
         });
 
         return deferred.promise;
