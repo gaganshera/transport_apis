@@ -10,12 +10,11 @@
 1. Clone/Download the project
 2. Set Google Distance Matrix API key in config/constants.js, key: `googleMapsKey`
 3. Execute the *start.sh* bash file via `./start.sh` to start the project. This will:
-    1. Check if npm is installed, if not, will install npm.
-    2. Start the docker environment. This will:
+    1. Start the docker environment. This will:
         * Build the Node.js image
         * Download the mongo image
         * Start the Node.js server
-    3. After docker-compose has built and started the project, automated test cases will start running.
+    2. After docker-compose has built and started the project, automated test cases will start running.
 
 ## Google Maps Distance Matric API configuration
 - Set the API key in config/constants.js, key: `googleMapsKey`
@@ -25,9 +24,8 @@
 1. Run `docker-compose up` from terminal
 2. Web APIs will be accessible at `http://localhost:8080`
 
-## Run automated tests from terminal (assumimg npm and node.js are installed)
-1. Run `npm i` to install dependencies for the project
-2. After dependencies have installed, run `npm test test/` to initiate automated test cases
+## Run automated tests from terminal
+- After starting the project with `docker-compose up`, run the tests with `docker exec -it transport_apis_server_1 npm test test/`
 
 ## API Reference Documentation
 

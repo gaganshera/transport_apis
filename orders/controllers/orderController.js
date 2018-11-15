@@ -4,7 +4,7 @@ const {
     validate
 } = require('jsonschema');
 const googleApi = require('../../lib/googleApi');
-const C = new require('../../config/constants')();
+const appConstants = require('../../config/constants');
 const createOrderValidator = require("../validations/createOrder.json");
 const updateOrderValidator = require("../validations/updateOrder.json");
 const listOrderValidator = require("../validations/listOrder.json");
@@ -32,7 +32,7 @@ module.exports = {
 
             const order = orderModel({
                 distance: totalDistance.distanceValue,
-                status: C.orderStatuses.UNASSIGNED,
+                status: appConstants.orderStatuses.UNASSIGNED,
                 origin: req.body.origin,
                 destination: req.body.destination,
                 createdAt: new Date(),
@@ -72,17 +72,17 @@ module.exports = {
         const deferred = Q.defer();
         const validation = validate(req.body, updateOrderValidator);
 
-        if (req.body.status !== C.orderStatuses.TAKEN || !validation.valid || !mongoValidate.isValidMongoId(req.params.id)) {
+        if (req.body.status !== appConstants.orderStatuses.TAKEN || !validation.valid || !mongoValidate.isValidMongoId(req.params.id)) {
             const error = {status: 400, message: 'INVALID_PARAMETERS'};
             deferred.reject(error);
             return deferred.promise;
         }
 
-        const query = { _id: req.params.id, status: C.orderStatuses.UNASSIGNED };
-        const update = { status: C.orderStatuses.TAKEN };
+        const query = { _id: req.params.id, status: appConstants.orderStatuses.UNASSIGNED };
+        const update = { status: appConstants.orderStatuses.TAKEN };
         const options = { new: false };
     
-        orderModel.findOneAndUpdate(query, update, options, function(err, orderData) {
+        orderModel.findOneAndUpdate(query, update, options, (err, orderData) => {
     
             if(err) {
     
@@ -121,16 +121,16 @@ module.exports = {
         const offset = ((page-1) * limit);
         let orderData = [];
 
-        orderModel.find(null, fields, {skip: offset, limit: limit}).sort({_id: -1})
-        .cursor() //looping through orders to change _id to id
-        .on('data', data => {
-            let datum = data.toObject();
-            datum.id = datum._id;
-            delete datum._id;
-            orderData.push(datum);
-        }).on('close', () => {
-            deferred.resolve(orderData);
-        })
+        orderModel.find(null, fields, { skip: offset, limit: limit }).sort({ _id: -1 })
+            .cursor() //looping through orders to change _id to id
+            .on('data', data => {
+                let datum = data.toObject();
+                datum.id = datum._id;
+                delete datum._id;
+                orderData.push(datum);
+            }).on('close', () => {
+                deferred.resolve(orderData);
+            });
 
         return deferred.promise;
     },

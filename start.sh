@@ -2,7 +2,7 @@
 echo 'Start docker'
 sudo docker-compose up -d
 
-sleep 5
+sleep 150
 
 # Start Test Cases
 echo 'Integration test cases:'

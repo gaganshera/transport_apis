@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-const C = new require('./config/constants')();
+const appConstants = require('./config/constants');
 
 //------------Mongo Connection ------------//
 require('./lib/db');
@@ -15,7 +15,7 @@ const express = require('express'),
     router = express.Router(),
     resp = require('./lib/responseHandler');
 
-app.set('port', process.env.PORT || C.defaultPort);
+app.set('port', process.env.PORT || appConstants.defaultPort);
 
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ type: 'text/plain', limit: '50mb' }));
