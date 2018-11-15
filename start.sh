@@ -3,7 +3,7 @@ echo 'Starting docker'
 sudo docker-compose up -d
 
 echo 'Installing dependencies...'
-sleep 50
+sleep 150
 
 # Start Test Cases
 echo 'Integration test cases:'
