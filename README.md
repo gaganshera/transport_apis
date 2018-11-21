@@ -1,6 +1,8 @@
 # Transport APIs
 ## Includes creating, updating order status and listing orders.
 
+[![Build Status](https://travis-ci.com/gaganshera/transport_apis.svg?branch=master)](https://travis-ci.com/gaganshera/transport_apis)
+
 ## Uses:
 - [Node.js](https://nodejs.org/en/) (v8.12.0) server that supports the APIs.
 - [MongoDB](https://www.mongodb.com/) (v3.4.18) the database layer.
