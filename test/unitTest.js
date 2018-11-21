@@ -66,7 +66,7 @@ describe('Mongo validity', () => {
     });
 });
 
-/* describe('Db connection', () => {
+describe.skip('Db connection', () => {
     it('should show db has conencted', (done) => {
         require('../lib/db');
         const mongoose = require('mongoose');
@@ -77,4 +77,3 @@ describe('Mongo validity', () => {
         });
     });
 });
- */
