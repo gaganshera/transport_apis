@@ -49,10 +49,8 @@ module.exports = {
                 const error = { status: 500, message: err.message };
                 deferred.reject(error);
             });
-        }, err => {
-            const error = {status: 500, message: err.message};
-            deferred.reject(error);
         }).catch(err => {
+            console.log(err)
             const error = {status: 500, message: err.message};
             deferred.reject(error);
         })
